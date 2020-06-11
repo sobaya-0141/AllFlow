@@ -1,5 +1,9 @@
 package sobaya.example.allflow.repository
 
+import kotlinx.coroutines.flow.flow
+
 class GithubRepository(private val service: GithubService) {
-    suspend fun getRepo(user: String) = service.listRepos(user)
+    fun getRepo(user: String) = flow {
+        emit(service.listRepos(user))
+    }
 }
