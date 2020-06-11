@@ -34,7 +34,7 @@ class MainFragment : Fragment() {
             .debounce(1000)
             .onEach {
                 if (it.isEmpty()) return@onEach
-                viewModel.getRepo(it.toString())
+                viewModel._user.postValue(it.toString())
             }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }
