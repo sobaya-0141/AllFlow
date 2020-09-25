@@ -1,2 +1,4 @@
+include ':sub'
+include ':util'
 include ':app'
 rootProject.name = "AllFlow"
