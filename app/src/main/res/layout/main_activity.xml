@@ -4,4 +4,8 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity" />
+    tools:context=".MainActivity" >
+    <sobaya.example.allflow.view.ComposeSample
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</FrameLayout>
