@@ -1,15 +1,10 @@
 package sobaya.example.allflow.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.asFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 class GithubRepository(private val service: GithubService) {
-     fun getRepo(user: LiveData<String>) =
-        flow {
-            user.asFlow().collect { it ->
-                emit(service.listRepos(it))
-            }
-        }
+     fun getRepo(user: String) =
+        flow { emit(service.listRepos(user)) }.flowOn(Dispatchers.IO)
 }

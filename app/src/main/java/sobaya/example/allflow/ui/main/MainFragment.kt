@@ -34,7 +34,7 @@ class MainFragment : Fragment() {
             .debounce(1000)
             .onEach {
                 if (it.isEmpty()) return@onEach
-                viewModel._user.postValue(it.toString())
+                viewModel._user.value = it.toString()
             }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }
