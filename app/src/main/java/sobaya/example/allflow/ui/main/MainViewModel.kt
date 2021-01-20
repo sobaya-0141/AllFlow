@@ -9,30 +9,20 @@ import sobaya.example.allflow.repository.GithubRepository
 class MainViewModel(private val repository: GithubRepository) : ViewModel() {
 
     val userName = MutableLiveData("")
-    private val isCompleteUserName = userName.asFlow().debounce(1000).map {
-        check(it.length > 3)
-        true
-    }.catch {
-        emit(false)
-    }.onEach {
-        it
+    private val isCompleteUserName = userName.asFlow().map {
+        it.length > 3
     }
 
     val subText = MutableLiveData("")
     private val isCompleteSubText = subText.asFlow().map {
-        check(it.length > 3)
-        true
-    }.catch {
-        emit(false)
-    }.onEach {
-        it
+        it.length > 3
     }
 
-    val checkComplete = combine(isCompleteUserName, isCompleteSubText) { userName, subTitle ->
+    private val checkComplete = combine(isCompleteUserName, isCompleteSubText) { userName, subTitle ->
         userName && subTitle
     }
 
-    val request = checkComplete.flatMapLatest {
+    private val request = checkComplete.flatMapLatest {
         repository.getRepo(userName.value!!)
     }
 
