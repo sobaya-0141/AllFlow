@@ -6,13 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import com.wada811.databinding.dataBinding
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.ldralighieri.corbind.widget.textChanges
 import sobaya.example.allflow.R
+import sobaya.example.allflow.databinding.MainFragmentBinding
 
 class MainFragment : Fragment() {
 
@@ -21,6 +24,7 @@ class MainFragment : Fragment() {
     }
 
     private val viewModel: MainViewModel by viewModel()
+    private val binding: MainFragmentBinding by dataBinding()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -29,12 +33,10 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<EditText>(R.id.message)
-            .textChanges()
-            .debounce(1000)
-            .onEach {
-                if (it.isEmpty()) return@onEach
-                viewModel.getRepo(it.toString())
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
+        viewModel.userName.observe(viewLifecycleOwner, Observer {
+            it.toString()
+        })
     }
 }
