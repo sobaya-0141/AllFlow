@@ -29,7 +29,7 @@ fun createOkHttp(): OkHttpClient {
     val builder = OkHttpClient.Builder()
     val logging = HttpLoggingInterceptor()
 
-    logging.level = if (BuildConfig.BUILD_TYPE == "debug") HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+    logging.level = HttpLoggingInterceptor.Level.BODY
     builder.addInterceptor(logging)
 
     return builder.build()

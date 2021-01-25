@@ -17,7 +17,7 @@ import ru.ldralighieri.corbind.widget.textChanges
 import sobaya.example.allflow.R
 import sobaya.example.allflow.databinding.MainFragmentBinding
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(R.layout.main_fragment) {
 
     companion object {
         fun newInstance() = MainFragment()
@@ -25,11 +25,6 @@ class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by viewModel()
     private val binding: MainFragmentBinding by dataBinding()
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

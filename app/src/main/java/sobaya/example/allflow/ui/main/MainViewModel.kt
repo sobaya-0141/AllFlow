@@ -1,9 +1,12 @@
 package sobaya.example.allflow.ui.main
 
-import androidx.lifecycle.*
-import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import sobaya.example.allflow.repository.GithubRepository
 
 class MainViewModel(private val repository: GithubRepository) : ViewModel() {
@@ -22,13 +25,20 @@ class MainViewModel(private val repository: GithubRepository) : ViewModel() {
         userName && subTitle
     }
 
-    private val request = checkComplete.flatMapLatest {
-        repository.getRepo(userName.value!!)
-    }
+    private val request = repository.getRepo("sobaya-0141")
+    private val res = request.stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     init {
-        request.onEach {
-            it.body()?.forEach {
+        res.onEach {
+            it?.body()?.forEach {
+                print(it)
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun getRepos() {
+        res.onEach {
+            it?.body()?.forEach {
                 print(it)
             }
         }.launchIn(viewModelScope)
