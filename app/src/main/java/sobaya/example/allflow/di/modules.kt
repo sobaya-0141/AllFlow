@@ -10,6 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import sobaya.example.allflow.repository.GithubRepository
 import sobaya.example.allflow.repository.GithubService
+import sobaya.example.allflow.util.Dispatcher
 
 val networkModule = module {
     single { createMoshi() }
@@ -17,6 +18,7 @@ val networkModule = module {
     single { createRetrofit(get(), get()) }
     single<GithubService> { createApi(get())}
     single { GithubRepository(get()) }
+    single { Dispatcher() }
 }
 
 fun createMoshi(): Moshi = Moshi.Builder()
